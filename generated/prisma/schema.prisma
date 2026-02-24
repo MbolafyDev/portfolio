@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  // ❌ plus de url ici en Prisma 7
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  name      String
+  title     String
+  location  String
+  intro     String
+  photo     String
+  cvUrl     String
+  updatedAt DateTime @updatedAt
+}
+
+model About {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id        Int      @id @default(autoincrement())
+  name      String
+  level     String
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model Projet {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  description String
+  github      String?  @default("")
+  demo        String?  @default("")
+  techJson    String   @default("[]")
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id         Int      @id @default(autoincrement())
+  company    String
+  role       String
+  period     String
+  pointsJson String   @default("[]")
+  order      Int      @default(0)
+  updatedAt  DateTime @updatedAt
+}
+
+model Education {
+  id        Int      @id @default(autoincrement())
+  school    String
+  degree    String
+  test      String?
+  period    String
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  email     String
+  phone     String
+  github    String
+  linkedin  String
+  updatedAt DateTime @updatedAt
+}

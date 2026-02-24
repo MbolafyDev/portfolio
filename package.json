@@ -1,0 +1,44 @@
+{
+  "name": "portfolio",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "npm run db:generate:dev && nuxt dev",
+    "build": "npm run db:generate:prod && nuxt build",
+    "generate": "npm run db:generate:prod && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+
+    "prisma:schema": "node scripts/prisma-schema.mjs",
+
+    "db:migrate:dev": "cross-env NODE_ENV=development npm run prisma:schema && prisma migrate dev",
+    "db:generate:dev": "cross-env NODE_ENV=development npm run prisma:schema && prisma generate",
+    "db:studio:dev": "cross-env NODE_ENV=development npm run prisma:schema && prisma studio",
+
+    "db:migrate:prod": "cross-env NODE_ENV=production npm run prisma:schema && prisma migrate deploy",
+    "db:generate:prod": "cross-env NODE_ENV=production npm run prisma:schema && prisma generate",
+    "db:studio:prod": "cross-env NODE_ENV=production npm run prisma:schema && prisma studio",
+
+    "db:dev": "npm run db:migrate:dev",
+    "db:migrate": "npm run db:migrate:prod",
+    "db:generate": "npm run db:generate:dev",
+
+    "prisma:dev:migrate": "npm run db:migrate:dev",
+    "prisma:prod:migrate": "npm run db:migrate:prod"
+  },
+  "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.4.1",
+    "@prisma/adapter-pg": "^7.4.1",
+    "@prisma/client": "^7.4.1",
+    "better-sqlite3": "^12.6.2",
+    "nuxt": "^4.3.1",
+    "pg": "^8.18.0",
+    "vue": "^3.5.28",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "cross-env": "^10.1.0",
+    "prisma": "^7.4.1"
+  }
+}

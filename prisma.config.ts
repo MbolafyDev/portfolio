@@ -1,16 +1,23 @@
+// prisma.config.ts
 import "dotenv/config"
-import { defineConfig, env } from "prisma/config"
+import { defineConfig } from "prisma/config"
+import path from "node:path"
+import fs from "node:fs"
+
+function devSqliteUrl() {
+  const abs = path.resolve(process.cwd(), "prisma", "dev.db")
+  fs.mkdirSync(path.dirname(abs), { recursive: true })
+
+  // Prisma attend file:C:/... (slashes)
+  const normalized = abs.replace(/\\/g, "/")
+  return `file:${normalized}`
+}
 
 export default defineConfig({
-  // Prisma CLI utilisera TOUJOURS prisma/schema.prisma (celui copié par ton script)
   schema: "prisma/schema.prisma",
-
-  // URL de connexion pour migrate/db/studio etc.
   datasource: {
-    url: env("DATABASE_URL"),
-  },
-
-  migrations: {
-    path: "prisma/migrations",
+    url: process.env.DATABASE_URL?.trim()
+      ? process.env.DATABASE_URL.trim()
+      : devSqliteUrl(),
   },
 })

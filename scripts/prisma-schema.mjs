@@ -1,7 +1,18 @@
+// scripts/prisma-schema.mjs
 import fs from "node:fs"
+import path from "node:path"
 
-const isProd = process.env.VERCEL === "1" || process.env.NODE_ENV === "production"
-const src = isProd ? "prisma/schema.prod.prisma" : "prisma/schema.dev.prisma"
+const isProd = process.env.NODE_ENV === "production"
 
-fs.copyFileSync(src, "prisma/schema.prisma")
-console.log("Prisma schema selected:", src)
+// source schemas
+const src = isProd
+  ? "prisma/schema.prod.prisma"
+  : "prisma/schema.dev.prisma"
+
+// destination schema prisma CLI
+const dest = "prisma/schema.prisma"
+
+fs.copyFileSync(path.resolve(src), path.resolve(dest))
+
+console.log(`Prisma schema selected: ${src}`)
+console.log(`Copied to: ${dest}`)
